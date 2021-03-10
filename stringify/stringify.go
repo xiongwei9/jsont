@@ -12,9 +12,9 @@ func stringifyStruct(structVal reflect.Value, structType reflect.Type) (string, 
 	if structVal.Kind() != reflect.Struct {
 		return "", errors.New("value is not struct")
 	}
-	keyNum := structVal.NumField()
-	strList := make([]string, 0, keyNum)
-	for i := 0; i < keyNum; i++ {
+	fieldNum := structVal.NumField()
+	strList := make([]string, 0, fieldNum)
+	for i := 0; i < fieldNum; i++ {
 		if !structVal.Field(i).CanInterface() {
 			continue
 		}
@@ -27,10 +27,6 @@ func stringifyStruct(structVal reflect.Value, structType reflect.Type) (string, 
 		str := fmt.Sprintf(`"%s":%s`, key, valueString)
 		strList = append(strList, str)
 	}
-	//fieldNum := structVal.NumField()
-	//for i:=0; i<fieldNum; i++ {
-	//
-	//}
 	return "{" + strings.Join(strList, ",") + "}", nil
 }
 

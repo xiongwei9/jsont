@@ -86,7 +86,20 @@ func TestStringifyStruct(t *testing.T) {
 	t.Log("parse json success:", json)
 }
 
-// TODO
 func TestStringifyPointer(t *testing.T) {
-
+	type Person struct {
+		Name string
+	}
+	listP := &[]interface{}{
+		"hello",
+		18,
+		nil,
+		false,
+		&Person{Name: "xxx"},
+	}
+	json, err := Stringify(listP)
+	if err != nil {
+		t.Error("parse error:", err)
+	}
+	t.Log("parse json success:", json)
 }
