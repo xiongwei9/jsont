@@ -14,18 +14,18 @@ func TestStringifyBasicObject(t *testing.T) {
 	}
 	json, err := Stringify(obj)
 	if err != nil {
-		t.Error("parse error:", err)
+		t.Error("stringify error:", err)
 	}
-	t.Log("parse json success:", json)
+	t.Log("stringify json success:", json)
 }
 
 func TestStringifyBasicArray(t *testing.T) {
 	array := []interface{}{"xiongwei", 18, nil, true, 119.9}
 	json, err := Stringify(array)
 	if err != nil {
-		t.Error("parse error:", err)
+		t.Error("stringify error:", err)
 	}
-	t.Log("parse json success:", json)
+	t.Log("stringify json success:", json)
 }
 
 func TestStringifyComplexData(t *testing.T) {
@@ -60,9 +60,9 @@ func TestStringifyComplexData(t *testing.T) {
 	}
 	json, err := Stringify(obj)
 	if err != nil {
-		t.Error("parse error:", err)
+		t.Error("stringify error:", err)
 	}
-	t.Log("parse json success:", json)
+	t.Log("stringify json success:", json)
 }
 
 func TestStringifyStruct(t *testing.T) {
@@ -81,9 +81,9 @@ func TestStringifyStruct(t *testing.T) {
 	}
 	json, err := Stringify(dog)
 	if err != nil {
-		t.Error("parse error:", err)
+		t.Error("stringify error:", err)
 	}
-	t.Log("parse json success:", json)
+	t.Log("stringify json success:", json)
 }
 
 func TestStringifyPointer(t *testing.T) {
@@ -99,7 +99,7 @@ func TestStringifyPointer(t *testing.T) {
 	}
 	json, err := Stringify(listP)
 	if err != nil {
-		t.Error("parse error:", err)
+		t.Error("stringify error:", err)
 	}
-	t.Log("parse json success:", json)
+	t.Log("stringify json success:", json)
 }

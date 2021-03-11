@@ -5,8 +5,9 @@ import (
 )
 
 func TestParse(t *testing.T) {
-	_, err := Parse("")
+	obj, err := Parse(`{"key":"value"}`)
 	if err != nil {
-		t.Error("parse error")
+		t.Error("parse error:", err)
 	}
+	t.Log("parse json success:", obj)
 }
