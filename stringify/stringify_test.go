@@ -15,6 +15,7 @@ func TestStringifyBasicObject(t *testing.T) {
 	json, err := Stringify(obj)
 	if err != nil {
 		t.Error("stringify error:", err)
+		return
 	}
 	t.Log("stringify json success:", json)
 }
@@ -24,6 +25,7 @@ func TestStringifyBasicArray(t *testing.T) {
 	json, err := Stringify(array)
 	if err != nil {
 		t.Error("stringify error:", err)
+		return
 	}
 	t.Log("stringify json success:", json)
 }
@@ -61,6 +63,7 @@ func TestStringifyComplexData(t *testing.T) {
 	json, err := Stringify(obj)
 	if err != nil {
 		t.Error("stringify error:", err)
+		return
 	}
 	t.Log("stringify json success:", json)
 }
@@ -82,6 +85,7 @@ func TestStringifyStruct(t *testing.T) {
 	json, err := Stringify(dog)
 	if err != nil {
 		t.Error("stringify error:", err)
+		return
 	}
 	t.Log("stringify json success:", json)
 }
@@ -100,6 +104,7 @@ func TestStringifyPointer(t *testing.T) {
 	json, err := Stringify(listP)
 	if err != nil {
 		t.Error("stringify error:", err)
+		return
 	}
 	t.Log("stringify json success:", json)
 }

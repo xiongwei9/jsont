@@ -10,6 +10,15 @@ type parser struct {
 	str   []rune
 }
 
+func (p *parser) parseString() (string, error) {
+	str, i := getQuoteContent(p.str, p.index)
+	if i < 0 {
+		return "", errors.New("parseString error")
+	}
+	p.index = i + 1
+	return string(str), nil
+}
+
 func (p *parser) parseObject() (map[string]interface{}, error) {
 	charList := p.str
 	i := p.index
@@ -20,7 +29,7 @@ func (p *parser) parseObject() (map[string]interface{}, error) {
 	for {
 		j := passSpace(charList, i+1)
 		key, j := getQuoteContent(charList, j)
-		if key == nil {
+		if j < 0 {
 			return nil, errors.New("parseObject error: not key")
 		}
 		j = passSpace(charList, j+1)
@@ -41,15 +50,19 @@ func (p *parser) parseObject() (map[string]interface{}, error) {
 	return obj, nil
 }
 
-func (p *parser) parse() (map[string]interface{}, error) {
-	m := make(map[string]interface{})
-
+func (p *parser) parse() (interface{}, error) {
+	var jsonVal interface{}
 	charList := p.str[p.index:]
 	for i := 0; i < len(charList); i++ {
 		char := charList[i]
 		switch char {
 		case ' ':
-			fmt.Println("space")
+			i = passSpace(charList, i)
+			if i > 0 {
+				i = i - 1
+			}
+		case '"':
+			return p.parseString()
 		case '{':
 			return p.parseObject()
 		case '[':
@@ -57,10 +70,10 @@ func (p *parser) parse() (map[string]interface{}, error) {
 		}
 	}
 
-	return m, nil
+	return jsonVal, nil
 }
 
-func Parse(jsonStr string) (map[string]interface{}, error) {
+func Parse(jsonStr string) (interface{}, error) {
 	p := parser{
 		str:   []rune(jsonStr),
 		index: 0,
