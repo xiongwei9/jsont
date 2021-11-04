@@ -1,0 +1,58 @@
+{
+package parse_peg
+}
+
+
+Grammar = __ json:Json __ (EOF / SyntaxError) {
+    return json, nil
+}
+
+// TODO:
+// Array
+// Object
+Json = BasicType / Array
+
+Array = "[" __ arr:( ArrayElement ( __ "," __ ArrayElement )* )? __ "]" {
+    // array := make([]interface{}, 0)
+    // for _, elem := arr {
+    //     array = append(array, ele)
+    // }
+    return arr, nil
+}
+
+ArrayElement = ( BasicType )
+
+BasicType = Boolean / Null / Number / String
+
+// Actions will be seperated by the ChoiceExpr, so use `()`
+Boolean = ("true" / "false") {
+    return string(c.text) == "true", nil
+}
+
+Null = "null" {
+    return nil, nil
+}
+
+// TODO: maybe int32? float32/float64?
+Number = [0-9]+ {
+    return strconv.ParseInt(string(c.text), 10, 64)
+}
+
+String = '"' ( "\\\"" / ( !'"' . ) )* '"' {
+    s := string(c.text)
+    l := len(s)
+    if l < 3 {
+        return "", nil
+    }
+    return s[1:l-1], nil
+}
+
+SyntaxError = . {
+	return nil, errors.New("parser: syntax error")
+}
+
+__ = ( Whitespace / EOL )*
+
+Whitespace = [ \t\r]
+EOL = '\n'
+EOF = !.
