@@ -1,24 +1,49 @@
 package parse_peg
 
 import (
+	"encoding/json"
 	"fmt"
 	"testing"
 )
 
 //go:generate pigeon -o grammar.peg.go ./grammar.peg
 
+// TODO: complete test code
 func TestParseArray(t *testing.T) {
-	s := `[1]`
+	s := ` [ ] `
 	j, err := ParseJson(s)
 	if err != nil {
 		t.Error("error not null string")
 		return
 	}
+	t.Logf("xxx: %v", j)
 
-	if j != s {
-		t.Errorf("error not string: %s", s)
+	s = ` [ 1 ] `
+	j, err = ParseJson(s)
+	if err != nil {
+		t.Error("error not null string")
 		return
 	}
+	t.Logf("xxx: %v", j)
+
+	s = ` [ 1 , "hello", null, true, false, [], [ 1 , "hello", null, true, false, [123]  ] ] `
+	j, err = ParseJson(s)
+	if err != nil {
+		t.Error("error not null string")
+		return
+	}
+	t.Logf("xxx: %v", j)
+
+	str, err := json.Marshal(j)
+	if err != nil {
+		t.Error("error not null string")
+	}
+	t.Logf("%s", str)
+
+	// if j != s {
+	// 	t.Errorf("error not string: %s", s)
+	// 	return
+	// }
 	t.Logf("%v", j)
 }
 

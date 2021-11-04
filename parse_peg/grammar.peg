@@ -8,19 +8,36 @@ Grammar = __ json:Json __ (EOF / SyntaxError) {
 }
 
 // TODO:
-// Array
 // Object
 Json = BasicType / Array
 
-Array = "[" __ arr:( ArrayElement ( __ "," __ ArrayElement )* )? __ "]" {
-    // array := make([]interface{}, 0)
-    // for _, elem := arr {
-    //     array = append(array, ele)
-    // }
-    return arr, nil
+Array = "[" __ outter:( ArrayElement OtherArrayElement )? __ "]" {
+    if outter == nil {
+        return []interface{}{}, nil
+    }
+    arr := outter.([]interface{})
+    finalArr := []interface{}{ arr[0] }
+    innerArr, typeOk := arr[1].([]interface{})
+    if typeOk {
+        finalArr = append(finalArr, innerArr...)
+    } else {
+        finalArr = append(finalArr, innerArr)
+    }
+
+    return finalArr, nil
 }
 
-ArrayElement = ( BasicType )
+ArrayElement = BasicType / Array
+
+OtherArrayElement = inner:( __ "," __ ArrayElement )* {
+    innerArr := inner.([]interface{})
+    arr := make([]interface{}, 0, len(innerArr))
+    for _, elem := range innerArr {
+        elemArr := elem.([]interface{})
+        arr = append(arr, elemArr[3])
+    }
+    return arr, nil
+}
 
 BasicType = Boolean / Null / Number / String
 
