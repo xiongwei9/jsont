@@ -42,9 +42,13 @@ OtherArrayElement = inner:( __ "," __ ArrayElement )* {
 BasicType = Boolean / Null / Number / String
 
 // Actions will be seperated by the ChoiceExpr, so use `()`
-Boolean = ("true" / "false") {
-    return string(c.text) == "true", nil
-}
+// ```````````````
+// Boolean = ("true" / "false") {
+//     return string(c.text) == "true", nil
+// }
+// ```````````````
+// Seems better
+Boolean = "true" { return true, nil } / "false" { return false, nil }
 
 Null = "null" {
     return nil, nil

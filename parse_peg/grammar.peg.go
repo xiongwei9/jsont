@@ -214,21 +214,25 @@ var g = &grammar{
 		},
 		{
 			name: "Boolean",
-			pos:  position{line: 45, col: 1, offset: 979},
-			expr: &actionExpr{
-				pos: position{line: 45, col: 11, offset: 989},
-				run: (*parser).callonBoolean1,
-				expr: &choiceExpr{
-					pos: position{line: 45, col: 12, offset: 990},
-					alternatives: []interface{}{
-						&litMatcher{
-							pos:        position{line: 45, col: 12, offset: 990},
+			pos:  position{line: 51, col: 1, offset: 1116},
+			expr: &choiceExpr{
+				pos: position{line: 51, col: 11, offset: 1126},
+				alternatives: []interface{}{
+					&actionExpr{
+						pos: position{line: 51, col: 11, offset: 1126},
+						run: (*parser).callonBoolean2,
+						expr: &litMatcher{
+							pos:        position{line: 51, col: 11, offset: 1126},
 							val:        "true",
 							ignoreCase: false,
 							want:       "\"true\"",
 						},
-						&litMatcher{
-							pos:        position{line: 45, col: 21, offset: 999},
+					},
+					&actionExpr{
+						pos: position{line: 51, col: 41, offset: 1156},
+						run: (*parser).callonBoolean4,
+						expr: &litMatcher{
+							pos:        position{line: 51, col: 41, offset: 1156},
 							val:        "false",
 							ignoreCase: false,
 							want:       "\"false\"",
@@ -239,12 +243,12 @@ var g = &grammar{
 		},
 		{
 			name: "Null",
-			pos:  position{line: 49, col: 1, offset: 1054},
+			pos:  position{line: 53, col: 1, offset: 1187},
 			expr: &actionExpr{
-				pos: position{line: 49, col: 8, offset: 1061},
+				pos: position{line: 53, col: 8, offset: 1194},
 				run: (*parser).callonNull1,
 				expr: &litMatcher{
-					pos:        position{line: 49, col: 8, offset: 1061},
+					pos:        position{line: 53, col: 8, offset: 1194},
 					val:        "null",
 					ignoreCase: false,
 					want:       "\"null\"",
@@ -253,14 +257,14 @@ var g = &grammar{
 		},
 		{
 			name: "Number",
-			pos:  position{line: 54, col: 1, offset: 1132},
+			pos:  position{line: 58, col: 1, offset: 1265},
 			expr: &actionExpr{
-				pos: position{line: 54, col: 10, offset: 1141},
+				pos: position{line: 58, col: 10, offset: 1274},
 				run: (*parser).callonNumber1,
 				expr: &oneOrMoreExpr{
-					pos: position{line: 54, col: 10, offset: 1141},
+					pos: position{line: 58, col: 10, offset: 1274},
 					expr: &charClassMatcher{
-						pos:        position{line: 54, col: 10, offset: 1141},
+						pos:        position{line: 58, col: 10, offset: 1274},
 						val:        "[0-9]",
 						ranges:     []rune{'0', '9'},
 						ignoreCase: false,
@@ -271,44 +275,44 @@ var g = &grammar{
 		},
 		{
 			name: "String",
-			pos:  position{line: 58, col: 1, offset: 1205},
+			pos:  position{line: 62, col: 1, offset: 1338},
 			expr: &actionExpr{
-				pos: position{line: 58, col: 10, offset: 1214},
+				pos: position{line: 62, col: 10, offset: 1347},
 				run: (*parser).callonString1,
 				expr: &seqExpr{
-					pos: position{line: 58, col: 10, offset: 1214},
+					pos: position{line: 62, col: 10, offset: 1347},
 					exprs: []interface{}{
 						&litMatcher{
-							pos:        position{line: 58, col: 10, offset: 1214},
+							pos:        position{line: 62, col: 10, offset: 1347},
 							val:        "\"",
 							ignoreCase: false,
 							want:       "\"\\\"\"",
 						},
 						&zeroOrMoreExpr{
-							pos: position{line: 58, col: 14, offset: 1218},
+							pos: position{line: 62, col: 14, offset: 1351},
 							expr: &choiceExpr{
-								pos: position{line: 58, col: 16, offset: 1220},
+								pos: position{line: 62, col: 16, offset: 1353},
 								alternatives: []interface{}{
 									&litMatcher{
-										pos:        position{line: 58, col: 16, offset: 1220},
+										pos:        position{line: 62, col: 16, offset: 1353},
 										val:        "\\\"",
 										ignoreCase: false,
 										want:       "\"\\\\\\\"\"",
 									},
 									&seqExpr{
-										pos: position{line: 58, col: 27, offset: 1231},
+										pos: position{line: 62, col: 27, offset: 1364},
 										exprs: []interface{}{
 											&notExpr{
-												pos: position{line: 58, col: 27, offset: 1231},
+												pos: position{line: 62, col: 27, offset: 1364},
 												expr: &litMatcher{
-													pos:        position{line: 58, col: 28, offset: 1232},
+													pos:        position{line: 62, col: 28, offset: 1365},
 													val:        "\"",
 													ignoreCase: false,
 													want:       "\"\\\"\"",
 												},
 											},
 											&anyMatcher{
-												line: 58, col: 32, offset: 1236,
+												line: 62, col: 32, offset: 1369,
 											},
 										},
 									},
@@ -316,7 +320,7 @@ var g = &grammar{
 							},
 						},
 						&litMatcher{
-							pos:        position{line: 58, col: 39, offset: 1243},
+							pos:        position{line: 62, col: 39, offset: 1376},
 							val:        "\"",
 							ignoreCase: false,
 							want:       "\"\\\"\"",
@@ -327,29 +331,29 @@ var g = &grammar{
 		},
 		{
 			name: "SyntaxError",
-			pos:  position{line: 67, col: 1, offset: 1361},
+			pos:  position{line: 71, col: 1, offset: 1494},
 			expr: &actionExpr{
-				pos: position{line: 67, col: 15, offset: 1375},
+				pos: position{line: 71, col: 15, offset: 1508},
 				run: (*parser).callonSyntaxError1,
 				expr: &anyMatcher{
-					line: 67, col: 15, offset: 1375,
+					line: 71, col: 15, offset: 1508,
 				},
 			},
 		},
 		{
 			name: "__",
-			pos:  position{line: 71, col: 1, offset: 1430},
+			pos:  position{line: 75, col: 1, offset: 1563},
 			expr: &zeroOrMoreExpr{
-				pos: position{line: 71, col: 6, offset: 1435},
+				pos: position{line: 75, col: 6, offset: 1568},
 				expr: &choiceExpr{
-					pos: position{line: 71, col: 8, offset: 1437},
+					pos: position{line: 75, col: 8, offset: 1570},
 					alternatives: []interface{}{
 						&ruleRefExpr{
-							pos:  position{line: 71, col: 8, offset: 1437},
+							pos:  position{line: 75, col: 8, offset: 1570},
 							name: "Whitespace",
 						},
 						&ruleRefExpr{
-							pos:  position{line: 71, col: 21, offset: 1450},
+							pos:  position{line: 75, col: 21, offset: 1583},
 							name: "EOL",
 						},
 					},
@@ -358,9 +362,9 @@ var g = &grammar{
 		},
 		{
 			name: "Whitespace",
-			pos:  position{line: 73, col: 1, offset: 1458},
+			pos:  position{line: 77, col: 1, offset: 1591},
 			expr: &charClassMatcher{
-				pos:        position{line: 73, col: 14, offset: 1471},
+				pos:        position{line: 77, col: 14, offset: 1604},
 				val:        "[ \\t\\r]",
 				chars:      []rune{' ', '\t', '\r'},
 				ignoreCase: false,
@@ -369,9 +373,9 @@ var g = &grammar{
 		},
 		{
 			name: "EOL",
-			pos:  position{line: 74, col: 1, offset: 1479},
+			pos:  position{line: 78, col: 1, offset: 1612},
 			expr: &litMatcher{
-				pos:        position{line: 74, col: 7, offset: 1485},
+				pos:        position{line: 78, col: 7, offset: 1618},
 				val:        "\n",
 				ignoreCase: false,
 				want:       "\"\\n\"",
@@ -379,11 +383,11 @@ var g = &grammar{
 		},
 		{
 			name: "EOF",
-			pos:  position{line: 75, col: 1, offset: 1490},
+			pos:  position{line: 79, col: 1, offset: 1623},
 			expr: &notExpr{
-				pos: position{line: 75, col: 7, offset: 1496},
+				pos: position{line: 79, col: 7, offset: 1629},
 				expr: &anyMatcher{
-					line: 75, col: 8, offset: 1497,
+					line: 79, col: 8, offset: 1630,
 				},
 			},
 		},
@@ -438,14 +442,24 @@ func (p *parser) callonOtherArrayElement1() (interface{}, error) {
 	return p.cur.onOtherArrayElement1(stack["inner"])
 }
 
-func (c *current) onBoolean1() (interface{}, error) {
-	return string(c.text) == "true", nil
+func (c *current) onBoolean2() (interface{}, error) {
+	return true, nil
 }
 
-func (p *parser) callonBoolean1() (interface{}, error) {
+func (p *parser) callonBoolean2() (interface{}, error) {
 	stack := p.vstack[len(p.vstack)-1]
 	_ = stack
-	return p.cur.onBoolean1()
+	return p.cur.onBoolean2()
+}
+
+func (c *current) onBoolean4() (interface{}, error) {
+	return false, nil
+}
+
+func (p *parser) callonBoolean4() (interface{}, error) {
+	stack := p.vstack[len(p.vstack)-1]
+	_ = stack
+	return p.cur.onBoolean4()
 }
 
 func (c *current) onNull1() (interface{}, error) {

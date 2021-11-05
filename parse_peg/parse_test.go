@@ -37,6 +37,7 @@ func TestParseArray(t *testing.T) {
 	str, err := json.Marshal(j)
 	if err != nil {
 		t.Error("error not null string")
+		return
 	}
 	t.Logf("%s", str)
 
@@ -67,7 +68,7 @@ func TestParseNumber(t *testing.T) {
 }
 
 func TestParseBoolean(t *testing.T) {
-	mock := true
+	mock := false
 	parsedVal, err := ParseJson(fmt.Sprint(mock))
 	if err != nil || parsedVal != mock {
 		t.Error("parse boolean error:", err)
