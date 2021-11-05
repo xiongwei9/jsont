@@ -8,6 +8,29 @@ import (
 
 //go:generate pigeon -o grammar.peg.go ./grammar.peg
 
+func TestParseObject(t *testing.T) {
+	obj, err := ParseJson(`{ }`)
+	if err != nil {
+		t.Error("parse error:", err)
+		return
+	}
+	t.Logf("parse success: %v", obj)
+
+	obj, err = ParseJson(`{"key":"value"}`)
+	if err != nil {
+		t.Error("parse error:", err)
+		return
+	}
+	t.Log("parse json success:", obj)
+
+	obj, err = ParseJson(`{"key":"value", "num": 1}`)
+	if err != nil {
+		t.Error("parse error:", err)
+		return
+	}
+	t.Log("parse json success:", obj)
+}
+
 // TODO: complete test code
 func TestParseArray(t *testing.T) {
 	s := ` [ ] `
@@ -26,7 +49,7 @@ func TestParseArray(t *testing.T) {
 	}
 	t.Logf("xxx: %v", j)
 
-	s = ` [ 1 , "hello", null, true, false, [], [ 1 , "hello", null, true, false, [123]  ] ] `
+	s = ` [ 1 , "hello", null, true, false, [], [ 1 , "hello", null, true, false, [123]  ], {"arr": [{}, 1], "num":123} ] `
 	j, err = ParseJson(s)
 	if err != nil {
 		t.Error("error not null string")
@@ -85,13 +108,4 @@ func TestParseString(t *testing.T) {
 		return
 	}
 	t.Log("parse string success:", str)
-}
-
-func TestParseObject(t *testing.T) {
-	obj, err := ParseJson(`{"key":"value"}`)
-	if err != nil {
-		t.Error("parse error:", err)
-		return
-	}
-	t.Log("parse json success:", obj)
 }

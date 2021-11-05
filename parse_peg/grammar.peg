@@ -2,37 +2,69 @@
 package parse_peg
 }
 
-
 Grammar = __ json:Json __ (EOF / SyntaxError) {
     return json, nil
 }
 
-// TODO:
-// Object
-Json = BasicType / Array
+Json = BasicType / Array / Object
 
-Array = "[" __ outter:( ArrayElement OtherArrayElement )? __ "]" {
-    if outter == nil {
+Object = "{" __ obj:( ObjectProperty OtherObjectProperties )? __ "}" {
+    if obj == nil {
+        return map[string]interface{}{}, nil
+    }
+    allProperties := obj.([]interface{})
+    finalMap := allProperties[0].(map[string]interface{})
+    if len(allProperties) > 1 {
+        otherObj := allProperties[1].(map[string]interface{})
+        for key, val := range otherObj {
+            finalMap[key] = val
+        }
+    }
+    return finalMap, nil
+}
+
+ObjectProperty = key:String __ ":" __ value:Json {
+    m := make(map[string]interface{})
+    keyStr := key.(string)
+    m[keyStr] = value
+    return m, nil
+}
+
+OtherObjectProperties = properties:( __ "," __ ObjectProperty )* {
+    propertySlice := properties.([]interface{})
+    m := make(map[string]interface{})
+    for _, elem := range propertySlice {
+        objSlice := elem.([]interface{})
+        obj := objSlice[3].(map[string]interface{})
+        for key, val := range obj {
+            m[key] = val
+        }
+    }
+    return m, nil
+}
+
+Array = "[" __ elements:( ArrayElement OtherArrayElements )? __ "]" {
+    if elements == nil {
         return []interface{}{}, nil
     }
-    arr := outter.([]interface{})
-    finalArr := []interface{}{ arr[0] }
-    innerArr, typeOk := arr[1].([]interface{})
+    elementSlice := elements.([]interface{})
+    finalArr := []interface{}{ elementSlice[0] }
+    otherElementSlice, typeOk := elementSlice[1].([]interface{})
     if typeOk {
-        finalArr = append(finalArr, innerArr...)
+        finalArr = append(finalArr, otherElementSlice...)
     } else {
-        finalArr = append(finalArr, innerArr)
+        finalArr = append(finalArr, otherElementSlice)
     }
 
     return finalArr, nil
 }
 
-ArrayElement = BasicType / Array
+ArrayElement = Json
 
-OtherArrayElement = inner:( __ "," __ ArrayElement )* {
-    innerArr := inner.([]interface{})
-    arr := make([]interface{}, 0, len(innerArr))
-    for _, elem := range innerArr {
+OtherArrayElements = elements:( __ "," __ ArrayElement )* {
+    elementSlice := elements.([]interface{})
+    arr := make([]interface{}, 0, len(elementSlice))
+    for _, elem := range elementSlice {
         elemArr := elem.([]interface{})
         arr = append(arr, elemArr[3])
     }
